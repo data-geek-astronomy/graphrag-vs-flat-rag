@@ -2,7 +2,7 @@
 title: GraphRAG vs Flat RAG Benchmark
 emoji: 🕸️
 colorFrom: green
-colorTo: violet
+colorTo: purple
 sdk: gradio
 sdk_version: 5.9.1
 app_file: app.py
