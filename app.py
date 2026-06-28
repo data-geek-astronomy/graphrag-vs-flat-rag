@@ -103,19 +103,20 @@ def run_comparison(question: str, api_key: str):
             flat_rag = FlatRAG(openai_api_key=api_key)
             graph_rag = GraphRAG(openai_api_key=api_key)
             docs = [
-                "The transformer architecture was introduced in 'Attention Is All You Need' (2017) by researchers at Google Brain including Ashish Vaswani.",
-                "Google was founded by Larry Page and Sergey Brin in 1998 while they were PhD students at Stanford University.",
-                "PyTorch is an open-source machine learning framework developed primarily by Meta AI Research (formerly Facebook AI Research).",
-                "Meta is headquartered in Menlo Park, California, United States.",
-                "Linus Torvalds created the Linux kernel in 1991 while studying at the University of Helsinki in Finland.",
-                "Python was created by Guido van Rossum and first released in 1991. He also created the ABC programming language.",
+                {"id": "1", "title": "Transformer Architecture", "text": "The transformer architecture was introduced in 'Attention Is All You Need' (2017) by researchers at Google Brain including Ashish Vaswani."},
+                {"id": "2", "title": "Google Founding", "text": "Google was founded by Larry Page and Sergey Brin in 1998 while they were PhD students at Stanford University."},
+                {"id": "3", "title": "PyTorch", "text": "PyTorch is an open-source machine learning framework developed primarily by Meta AI Research (formerly Facebook AI Research)."},
+                {"id": "4", "title": "Meta HQ", "text": "Meta is headquartered in Menlo Park, California, United States."},
+                {"id": "5", "title": "Linux", "text": "Linus Torvalds created the Linux kernel in 1991 while studying at the University of Helsinki in Finland."},
+                {"id": "6", "title": "Python", "text": "Python was created by Guido van Rossum and first released in 1991. He also created the ABC programming language."},
             ]
-            for doc in docs:
-                flat_rag.add_documents([doc])
-                graph_rag.add_documents([doc])
+            flat_rag.add_documents(docs)
+            graph_rag.add_documents(docs)
 
-        flat_answer = flat_rag.answer(question)
-        graph_answer = graph_rag.answer(question)
+        flat_result = flat_rag.answer(question)
+        graph_result = graph_rag.answer(question)
+        flat_answer = flat_result[0] if isinstance(flat_result, tuple) else flat_result
+        graph_answer = graph_result[0] if isinstance(graph_result, tuple) else graph_result
 
         return f"""
         <div class="compare-grid">
