@@ -56,6 +56,7 @@ SAMPLE_QUESTIONS = [
     "What programming language was created by the inventor of Python?",
     "Which university did the creator of Linux attend?",
     "What is the capital of the country where PyTorch was primarily developed?",
+    "Where was the creator of Linux studying when he built the Linux kernel?",
 ]
 
 DEMO_ANSWERS = {
@@ -221,10 +222,25 @@ with gr.Blocks(css=CSS, theme=gr.themes.Base(), title="GraphRAG vs Flat RAG") as
         with gr.Tab("Live Comparison"):
             gr.HTML('<div class="section" style="padding-bottom:12px"><div class="sec-label">Ask your own question — requires OpenAI API key</div></div>')
             api_key = gr.Textbox(label="OpenAI API Key", type="password", value=OPENAI_KEY)
+            gr.HTML('<div style="padding:0 32px 8px"><div class="sec-label">Try a sample question</div></div>')
+            with gr.Row():
+                sq0 = gr.Button("Who founded the transformer company?", size="sm")
+                sq1 = gr.Button("What language did Python's creator invent?", size="sm")
+                sq2 = gr.Button("Which uni did Linux creator attend?", size="sm")
+            with gr.Row():
+                sq3 = gr.Button("Capital of PyTorch's home country?", size="sm")
+                sq4 = gr.Button("Where was Linux built?", size="sm")
             question = gr.Textbox(label="Your Question", placeholder="Who founded the company that created the transformer architecture?")
             run_btn = gr.Button("Compare Both Systems", variant="primary")
             live_out = gr.HTML()
             run_btn.click(fn=run_comparison, inputs=[question, api_key], outputs=live_out)
+            # Sample question buttons: fill box AND run comparison
+            def _sq(q, key): return q, run_comparison(q, key)
+            sq0.click(fn=lambda k: (SAMPLE_QUESTIONS[0], run_comparison(SAMPLE_QUESTIONS[0], k)), inputs=[api_key], outputs=[question, live_out])
+            sq1.click(fn=lambda k: (SAMPLE_QUESTIONS[1], run_comparison(SAMPLE_QUESTIONS[1], k)), inputs=[api_key], outputs=[question, live_out])
+            sq2.click(fn=lambda k: (SAMPLE_QUESTIONS[2], run_comparison(SAMPLE_QUESTIONS[2], k)), inputs=[api_key], outputs=[question, live_out])
+            sq3.click(fn=lambda k: (SAMPLE_QUESTIONS[3], run_comparison(SAMPLE_QUESTIONS[3], k)), inputs=[api_key], outputs=[question, live_out])
+            sq4.click(fn=lambda k: (SAMPLE_QUESTIONS[4], run_comparison(SAMPLE_QUESTIONS[4], k)), inputs=[api_key], outputs=[question, live_out])
 
         with gr.Tab("Benchmark"):
             gr.HTML('<div class="section" style="padding-bottom:0"><div class="sec-label">HotpotQA benchmark — 500 questions</div></div>')
